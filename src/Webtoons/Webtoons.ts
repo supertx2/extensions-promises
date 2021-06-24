@@ -49,6 +49,10 @@ export const WebtoonsInfo: SourceInfo = {
  * Make sure that this challenge value is parsed before using any IDs, as the URL formatting differs depending on the manga class
  */
 export class Webtoons extends Source {
+  
+  // Set cookies to bypass the age verification page for certain countries
+  readonly cookies = [createCookie({ name: 'pagGDPR', value: 'true', domain: ".webtoons.com" })]
+  
   /**
    * This sources requires itself as a referer for images to resolve correctly
    */
@@ -68,6 +72,7 @@ export class Webtoons extends Source {
       const request = createRequestObject({
         url: `${WEBTOON_DOMAIN}/challenge/episodeList?titleNo=${mangaId.substr(1, mangaId.length)}`,
         method: "GET",
+        cookies: this.cookies,
         headers: {
           referer: WEBTOON_DOMAIN,
         },
@@ -77,9 +82,10 @@ export class Webtoons extends Source {
       const $ = this.cheerio.load(data.data);
       return await parseMangaDetailsChallenge($, mangaId);
     } else {
-      // This is an origional title
+      // This is an original title
       const request = createRequestObject({
         url: `${WEBTOON_DOMAIN}/episodeList?titleNo=${mangaId}`,
+        cookies: this.cookies,
         method: "GET",
       });
 
@@ -99,6 +105,7 @@ export class Webtoons extends Source {
       const request = createRequestObject({
         url: `${WEBTOON_DOMAIN}/en/challenge/reeeee/list?title_no=${mangaId.substr(1, mangaId.length)}`,
         method: "GET",
+        cookies: this.cookies,
         headers: {
           referer: WEBTOON_DOMAIN,
         },
@@ -120,6 +127,7 @@ export class Webtoons extends Source {
         const newRequest = createRequestObject({
           url: `${WEBTOON_DOMAIN}/en/challenge/${parseResults.pagnationId}/list?title_no=${mangaId.substr(1, mangaId.length)}&page=${hasNextPage}`,
           method: "GET",
+          cookies: this.cookies,
           headers: {
             referer: WEBTOON_DOMAIN,
           },
@@ -139,6 +147,7 @@ export class Webtoons extends Source {
       const request = createRequestObject({
         url: `${WEBTOON_DOMAIN}/en/aaahh/reeeee/list?title_no=${mangaId}`,
         method: "GET",
+        cookies: this.cookies,
         headers: {
           referer: WEBTOON_DOMAIN,
         },
@@ -155,6 +164,7 @@ export class Webtoons extends Source {
         const newRequest = createRequestObject({
           url: `${WEBTOON_DOMAIN}/en/${parseResults.titleId}/${parseResults.pagnationId}/list?title_no=${mangaId}&page=${hasNextPage}`,
           method: "GET",
+          cookies: this.cookies,
           headers: {
             referer: WEBTOON_DOMAIN,
           },
@@ -180,6 +190,7 @@ export class Webtoons extends Source {
       const request = createRequestObject({
         url: `${WEBTOON_DOMAIN}/en/challenge/ree/someChapter/viewer?title_no=${mangaId.substr(1, mangaId.length)}&episode_no=${chapterId}&webtoonType=CHALLENGE`,
         method: 'GET',
+        cookies: this.cookies,
         headers: {
           referer: WEBTOON_DOMAIN
         }
@@ -197,6 +208,7 @@ export class Webtoons extends Source {
       const request = createRequestObject({
         url: `${WEBTOON_DOMAIN}/en/fantasy/ree/someChapter/viewer?title_no=${mangaId}&episode_no=${chapterId}`,
         method: 'GET',
+        cookies: this.cookies,
         headers: {
           referer: WEBTOON_DOMAIN
         }
@@ -217,6 +229,7 @@ export class Webtoons extends Source {
     const request = createRequestObject({
       url: `${WEBTOON_DOMAIN}/en/search?keyword=${query.title?.replace(/ /g, '%20')}`,
       method: "GET",
+      cookies: this.cookies,
       headers: {
         referer: WEBTOON_DOMAIN,
       },
@@ -243,6 +256,7 @@ export class Webtoons extends Source {
 
     const request = createRequestObject({
       url: `${WEBTOON_DOMAIN}/en/dailySchedule`,
+      cookies: this.cookies,
       method: `GET`
     })
 
@@ -263,6 +277,7 @@ export class Webtoons extends Source {
       case "rolling_updates": {
         const request = createRequestObject({
           url: `${WEBTOON_DOMAIN}/en/dailySchedule`,
+          cookies: this.cookies,
           method: `GET`
         })
     
@@ -278,6 +293,7 @@ export class Webtoons extends Source {
       case "completed_series": {
         const request = createRequestObject({
           url: `${WEBTOON_DOMAIN}/en/dailySchedule`,
+          cookies: this.cookies,
           method: `GET`
         })
     
