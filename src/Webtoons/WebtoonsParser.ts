@@ -43,7 +43,7 @@ export const parseMangaDetailsOrig = async ($: CheerioStatic, mangaId: string): 
     }
 
     let rating = $("em#_starScoreAverage").text();
-    const completed = $("span.txt_ico_completed2") === undefined ? MangaStatus.ONGOING : MangaStatus.COMPLETED;
+    const completed = $("p.day_info").text().includes('COMPLETED') ? MangaStatus.COMPLETED : MangaStatus.ONGOING;
     const author = $("a.author")
       .text()
       .replace(/author info/, "")
