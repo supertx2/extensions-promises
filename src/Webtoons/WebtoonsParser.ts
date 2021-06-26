@@ -12,7 +12,7 @@ if(!image) {
 }
 
 let rating = $('em#_starScoreAverage').text()
-const completed = $('span.txt_ico_completed2') === undefined ? MangaStatus.ONGOING : MangaStatus.COMPLETED
+const completed = title.toLowerCase().includes('completed') ? MangaStatus.COMPLETED : MangaStatus.ONGOING
 const author = $('span.author').text().replace(/author info/, '').trim()
 const description = $('p.summary').text().trim()
 
